@@ -1,0 +1,161 @@
+.normalization-table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 10px;
+      background-color: #1e1e1e;
+    }
+    .normalization-table th {
+      background-color: #2d3748;
+      color: #e2e8f0;
+      font-weight: 600;
+      padding: 10px 12px;
+      border: 1px solid #4a5568;
+    }
+    .normalization-table td {
+      border: 1px solid #4a5568;
+      padding: 12px 15px;
+      text-align: center;
+      min-width: 120px;
+    }
+    .cell-drop {
+      min-height: 50px;
+      cursor: pointer;
+      transition: all 0.3s;
+      background-color: #2d3748;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .cell-drop::before {
+      content: "Arrastrar aquí";
+      position: absolute;
+      color: #718096;
+      font-size: 0.8rem;
+    }
+    .cell-drop.correct {
+      background-color: #14532d;
+      color: white;
+      border: 1px solid #22c55e;
+    }
+    .cell-drop.correct::before {
+      content: "";
+    }
+    .cell-drop.incorrect {
+      background-color: #7f1d1d;
+      color: white;
+      border: 1px solid #ef4444;
+    }
+    .cell-drop.incorrect::before {
+      content: "";
+    }
+    .field-card {
+      transition: all 0.2s;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .field-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+    .sql-keyword {
+      color: #569cd6;
+    }
+    .sql-field {
+      color: #9cdcfe;
+    }
+    .sql-type {
+      color: #ce9178;
+    }
+    .phase-indicator {
+      border-radius: 20px;
+      padding: 6px 15px;
+      font-size: 0.9rem;
+      background: linear-gradient(135deg, #4f46e5, #7c3aed);
+    }
+    .table-title {
+      background: linear-gradient(90deg, #1e3a8a, #1e40af);
+      color: white;
+      font-weight: bold;
+      padding: 8px 15px;
+      border-radius: 6px 6px 0 0;
+      margin-top: 20px;
+    }
+    .fragment-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 12px;
+    }
+    .hint-text {
+      background: rgba(56, 189, 248, 0.1);
+      border-left: 4px solid #0ea5e9;
+      padding: 10px 15px;
+      border-radius: 0 4px 4px 0;
+    }
+    .normalization-step {
+      background: #1a202c;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .table-structure {
+      background: #1e293b;
+      border-radius: 6px;
+      padding: 15px;
+      border: 1px solid #334155;
+    }
+    .pk-indicator {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      background: #f59e0b;
+      color: black;
+      border-radius: 50%;
+      font-size: 0.7rem;
+      line-height: 20px;
+      text-align: center;
+      margin-right: 8px;
+      font-weight: bold;
+    }
+    .fk-indicator {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      background: #10b981;
+      color: black;
+      border-radius: 50%;
+      font-size: 0.7rem;
+      line-height: 20px;
+      text-align: center;
+      margin-right: 8px;
+      font-weight: bold;
+    }
+    .field-definition {
+      font-family: 'Courier New', monospace;
+      background: #2d3748;
+      padding: 3px 8px;
+      border-radius: 4px;
+      display: inline-block;
+    }
+    .field-name {
+      color: #9cdcfe;
+    }
+    .field-type {
+      color: #ce9178;
+    }
+    .field-constraint {
+      color: #c586c0;
+    }
+    .exercise-card {
+      transition: all 0.3s;
+      cursor: pointer;
+      border: 2px solid transparent;
+    }
+    .exercise-card:hover {
+      transform: translateY(-5px);
+      border-color: #4f46e5;
+    }
+    .exercise-card.active {
+      border-color: #4f46e5;
+      box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.3);
+    }

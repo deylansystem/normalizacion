@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>🧠 SQL Trainer - Normalización Mejorada</title>
+  <script src="https://cdn.tailwindcss.com"></script> 
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body class="bg-gray-900 text-gray-100 min-h-screen font-sans">
+  <div class="container mx-auto px-4 py-6">
+    <!-- Info Bar -->
+    <div class="flex flex-wrap justify-between gap-4 mb-6 text-sm">
+      <div class="flex items-center gap-2">
+        <span class="phase-indicator">
+          <i class="fas fa-database mr-2"></i> 
+          <span id="phaseText">Tabla sin Normalizar</span>
+        </span>
+      </div>
+      <div class="flex items-center">
+        <i class="fas fa-tasks mr-2 text-blue-400"></i>
+        Ejercicio: <span id="exerciseName" class="font-semibold ml-1">Clientes y Pedidos</span>
+      </div>
+      <div class="flex items-center">
+        <i class="fas fa-clock mr-2 text-yellow-400"></i>
+        Tiempo: <span id="timer" class="font-bold text-red-400 ml-1">60</span>s
+      </div>
+      <div class="flex items-center">
+        <i class="fas fa-layer-group mr-2 text-green-400"></i>
+        Nivel:
+        <select id="difficulty" class="ml-1 p-1 bg-gray-700 text-white rounded text-sm">
+          <option value="principiante">Principiante (2 min)</option>
+          <option value="intermedio" selected>Intermedio (1 min)</option>
+          <option value="avanzado">Avanzado (30 seg)</option>
+        </select>
+      </div>
+      <div class="flex items-center">
+        <i class="fas fa-star mr-2 text-yellow-300"></i>
+        Puntos: <span id="score" class="font-bold text-green-400 ml-1">0</span>
+      </div>
+    </div>
+
+    <!-- Selector de Ejercicios -->
+    <div class="mb-8 normalization-step">
+      <div class="bg-gradient-to-r from-purple-900/50 to-indigo-900/50 px-5 py-3 border-b border-purple-800">
+        <h2 class="font-bold text-lg flex items-center gap-2">
+          <i class="fas fa-list-ol text-purple-400"></i> Seleccionar Ejercicio
+        </h2>
+      </div>
+      <div class="p-4">
+        <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4">
+          <div class="exercise-card bg-gray-800 p-4 rounded-lg text-center active" data-index="0">
+            <div class="text-xl mb-2 text-blue-400"><i class="fas fa-users"></i></div>
+            <h3 class="font-bold">Clientes</h3>
+            <p class="text-sm text-gray-400 mt-1">Pedidos</p>
+          </div>
+          <div class="exercise-card bg-gray-800 p-4 rounded-lg text-center" data-index="1">
+            <div class="text-xl mb-2 text-green-400"><i class="fas fa-building"></i></div>
+            <h3 class="font-bold">Empleados</h3>
+            <p class="text-sm text-gray-400 mt-1">Departamentos</p>
+          </div>
+          <div class="exercise-card bg-gray-800 p-4 rounded-lg text-center" data-index="2">
+            <div class="text-xl mb-2 text-yellow-400"><i class="fas fa-book"></i></div>
+            <h3 class="font-bold">Biblioteca</h3>
+            <p class="text-sm text-gray-400 mt-1">Libros</p>
+          </div>
+          <div class="exercise-card bg-gray-800 p-4 rounded-lg text-center" data-index="3">
+            <div class="text-xl mb-2 text-red-400"><i class="fas fa-shopping-cart"></i></div>
+            <h3 class="font-bold">Ventas</h3>
+            <p class="text-sm text-gray-400 mt-1">Productos</p>
+          </div>
+          <div class="exercise-card bg-gray-800 p-4 rounded-lg text-center" data-index="4">
+            <div class="text-xl mb-2 text-indigo-400"><i class="fas fa-calendar-alt"></i></div>
+            <h3 class="font-bold">Reservas</h3>
+            <p class="text-sm text-gray-400 mt-1">Sistema</p>
+          </div>
+          <div class="exercise-card bg-gray-800 p-4 rounded-lg text-center" data-index="5">
+            <div class="text-xl mb-2 text-pink-400"><i class="fas fa-graduation-cap"></i></div>
+            <h3 class="font-bold">Cursos</h3>
+            <p class="text-sm text-gray-400 mt-1">Estudiantes</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Enunciado -->
+    <div id="enunciado" class="normalization-step mb-6 p-4 bg-gradient-to-r from-blue-900/30 to-indigo-900/30 border border-blue-800/50 rounded-lg">
+      <div class="flex items-start">
+        <i class="fas fa-info-circle text-blue-400 mt-1 mr-3 text-lg"></i>
+        <div>
+          <h3 class="font-bold text-lg mb-2">Objetivo de Normalización</h3>
+          <p class="text-gray-300">Cargando enunciado...</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabla actual -->
+    <div class="normalization-step mb-6">
+      <div class="bg-gradient-to-r from-gray-800 to-gray-900 px-5 py-3 border-b border-gray-700">
+        <h2 class="font-bold text-lg flex items-center gap-2">
+          <i class="fas fa-table text-cyan-400"></i> Tabla a normalizar
+        </h2>
+      </div>
+      <div class="p-4">
+        <div id="currentTable" class="table-structure"></div>
+      </div>
+    </div>
+
+    <!-- Fragmentos y Destinos -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <!-- Fragmentos -->
+      <div class="normalization-step">
+        <div class="bg-gradient-to-r from-purple-900/50 to-indigo-900/50 px-5 py-3 border-b border-purple-800">
+          <h2 class="font-bold text-lg flex items-center gap-2">
+            <i class="fas fa-puzzle-piece text-purple-400"></i> Campos Disponibles
+          </h2>
+        </div>
+        <div class="p-4">
+          <div class="hint-text mb-4">
+            <i class="fas fa-lightbulb text-yellow-400 mr-2"></i>
+            Arrastra estos campos a las tablas de normalización
+          </div>
+          <div id="fragments" class="fragment-container"></div>
+        </div>
+      </div>
+      
+      <!-- Destinos -->
+      <div class="lg:col-span-2 normalization-step">
+        <div class="bg-gradient-to-r from-green-900/50 to-emerald-900/50 px-5 py-3 border-b border-green-800">
+          <h2 class="font-bold text-lg flex items-center gap-2">
+            <i class="fas fa-bezier-curve text-green-400"></i> Estructura Normalizada
+          </h2>
+        </div>
+        <div class="p-4">
+          <div class="hint-text mb-4">
+            <i class="fas fa-mouse-pointer text-green-400 mr-2"></i>
+            Arrastra los campos a las tablas correctas para completar la normalización
+          </div>
+          <div id="targets" class="space-y-8"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Botones -->
+    <div class="flex gap-3 mt-8 justify-center">
+      <button id="restartBtn" class="px-5 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-700 hover:from-blue-700 hover:to-indigo-800 text-white rounded-lg transition-all flex items-center gap-2">
+        <i class="fas fa-redo"></i> Reiniciar Ejercicio
+      </button>
+      <button id="checkBtn" class="px-5 py-2.5 bg-gradient-to-r from-green-600 to-emerald-700 hover:from-green-700 hover:to-emerald-800 text-white rounded-lg transition-all flex items-center gap-2">
+        <i class="fas fa-check-circle"></i> Verificar Solución
+      </button>
+      <button id="hintBtn" class="px-5 py-2.5 bg-gradient-to-r from-yellow-600 to-amber-700 hover:from-yellow-700 hover:to-amber-800 text-white rounded-lg transition-all flex items-center gap-2">
+        <i class="fas fa-lightbulb"></i> Mostrar Pista
+      </button>
+    </div>
+  </div>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
